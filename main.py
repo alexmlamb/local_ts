@@ -12,31 +12,66 @@ import numpy as np
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
+import torch.nn as nn
 
 '''
 z -> z_1,z_2,z_3
+gen_high
+
 z_1,z_2,z_3 -> z
+inf_high
 
 z_i -> x_i
+gen_low
 x_i -> z_i
+inf_low
 '''
 def init_gparams():
 
     params = {}
 
-    params['W1'] = Variable(0.01 * torch.randn(784,512).cuda(), requires_grad=True)
-    params['W2'] = Variable(0.01 * torch.randn(512,10).cuda(), requires_grad=True)
+    params['W_gh_1'] = Variable(0.01 * torch.randn(128,1024).cuda(), requires_grad=True)
+    params['W_gh_2'] = Variable(0.01 * torch.randn(1024,1024).cuda(), requires_grad=True)
+    params['W_gh_3'] = Variable(0.01 * torch.randn(1024,128*3).cuda(), requires_grad=True)
+
+    params['W_ih_1'] = Variable(0.01 * torch.randn(128*3,1024).cuda(), requires_grad=True)
+    params['W_ih_2'] = Variable(0.01 * torch.randn(1024,1024).cuda(), requires_grad=True)
+    params['W_ih_3'] = Variable(0.01 * torch.randn(1024,128).cuda(), requires_grad=True)
+
+    params['W_gl_1'] = Variable(0.01 * torch.randn(128*2,1024).cuda(), requires_grad=True)
+    params['W_gl_2'] = Variable(0.01 * torch.randn(1024,1024).cuda(), requires_grad=True)
+    params['W_gl_3'] = Variable(0.01 * torch.randn(1024,784).cuda(), requires_grad=True)
+
+    params['W_il_1'] = Variable(0.01 * torch.randn(784,1024).cuda(), requires_grad=True)
+    params['W_il_2'] = Variable(0.01 * torch.randn(1024,1024).cuda(), requires_grad=True)
+    params['W_il_3'] = Variable(0.01 * torch.randn(1024,128).cuda(), requires_grad=True)
 
     return params
 
 '''
 D(z_i,x_i)
+
 D(z, z_1, z_2, z_3)
+
+D_low
+D_high
+
 '''
 def init_dparams():
 
     params = {}
 
+    params['W_l_1'] = Variable(0.01 * torch.randn(784+128,1024).cuda(), requires_grad=True)
+    params['W_l_2'] = Variable(0.01 * torch.randn(1024,1024).cuda(), requires_grad=True)
+    params['W_l_3'] = Variable(0.01 * torch.randn(1024,1).cuda(), requires_grad=True)
+    
+    params['W_h_1'] = Variable(0.01 * torch.randn(128*4,1024).cuda(), requires_grad=True)
+    params['W_h_2'] = Variable(0.01 * torch.randn(1024,1024).cuda(), requires_grad=True)
+    params['W_h_3'] = Variable(0.01 * torch.randn(1024,1).cuda(), requires_grad=True)
+
+
+
+    return params  
 
 
 def network(p, x, ytrue):
