@@ -13,8 +13,14 @@ import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 
+'''
+z -> z_1,z_2,z_3
+z_1,z_2,z_3 -> z
 
-def init_params():
+z_i -> x_i
+x_i -> z_i
+'''
+def init_gparams():
 
     params = {}
 
@@ -22,6 +28,15 @@ def init_params():
     params['W2'] = Variable(0.01 * torch.randn(512,10).cuda(), requires_grad=True)
 
     return params
+
+'''
+D(z_i,x_i)
+D(z, z_1, z_2, z_3)
+'''
+def init_dparams():
+
+    params = {}
+
 
 
 def network(p, x, ytrue):
