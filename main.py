@@ -102,9 +102,10 @@ if __name__ == "__main__":
     validx,validy = valid
     testx, testy = test
 
-    p = init_params()
+    gp = init_gparams()
+    dp = init_dparams()
 
-    optimizer = optim.Adam([p['W1'], p['W2']], lr = 0.001, betas=(0.9,0.999))
+    optimizer = optim.Adam([gp['W1'], gp['W2']], lr = 0.001, betas=(0.9,0.999))
 
     accl = []
 
