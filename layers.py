@@ -33,9 +33,7 @@ class Generator_Low(nn.Module):
     def forward(self, z):
 
         z_local = Variable(torch.randn(z.size(0), self.z_dim).cuda())
-
         z_full = torch.cat((z_local, z), 1)
-
         h1 = self.activ(self.bn_h(self.fc_1(z_full)))
         h2 = self.activ(self.bn_h(self.fc_2(h1)))
         xgen = self.fc_3(h2)
@@ -52,6 +50,13 @@ class Discriminator_Low(nn.module):
         self.z_dim = z_dim
         self.activ = nn.LeakyReLU()
 
+    def forward(self, x, z):
+        inp_concat = torch.cat((x,z), 1)
+        h1 = self.activ(self.bn_h(self.fc_1(inp_concat)))
+        h2 = self.activ(self.bn_h(self.fc_1(h1)))
+        out = self.fc_3(h2)
+
+        return out
 
 if __name__ == "__main__":
     
