@@ -69,8 +69,6 @@ def init_dparams():
     params['W_h_2'] = Variable(0.01 * torch.randn(1024,1024).cuda(), requires_grad=True)
     params['W_h_3'] = Variable(0.01 * torch.randn(1024,1).cuda(), requires_grad=True)
 
-
-
     return params  
 
 
